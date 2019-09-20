@@ -1,6 +1,0 @@
-#!/usr/bin/env bash
-
-BUILD_DIR=$1
-
-echo "TextBlob"
-exit 0
