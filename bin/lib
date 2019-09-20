@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+CORPUS_DIR="$BUILD_DIR/nltk_data"
+
+CORPUS_REQUIRED=$(cat <<EOF
+brown|https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/corpora/brown.zip|corpora
+punkt|https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/tokenizers/punkt.zip|tokenizers
+wordnet|https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/corpora/wordnet.zip|corpora
+averaged_perceptron_tagger|https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/taggers/averaged_perceptron_tagger.zip|taggers
+EOF
+)
+
+CORPUS_OPTIONAL=$(cat <<EOF
+conll2000|https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/corpora/conll2000.zip|corpora
+movie_reviews|https://raw.githubusercontent.com/nltk/nltk_data/gh-pages/packages/corpora/movie_reviews.zip|corpora
+EOF
+)
+
+puts-info() {
+  echo "-----> $@"
+}
+
+puts-action() {
+  echo "      [!] $@"
+}
+
+_fetch-corpus() {
+  local name="$1"
+  local url="$2"
+  local subdir="$3"
+  puts-action "Installing Corpus: $name"
+  curl -# -o "$name.zip" "$url" && \
+    mkdir -p "$CORPUS_DIR/$subdir" && \
+    unzip -qq "$name.zip" -d "$CORPUS_DIR/$subdir" && \
+    rm -f "$name.zip"
+}
+
+_install-corpus() {
+  for i in "$@"; do
+    _fetch-corpus $(echo "$i" | awk -F'|' '{ print $1, $2, $3 }')
+  done
+}
+
+install() {
+  _install-corpus $CORPUS_REQUIRED
+  if [ "$1" != 'lite' ]; then
+    puts-info 'Installing optional corpus...'
+    _install-corpus $CORPUS_OPTIONAL
+  fi
+}

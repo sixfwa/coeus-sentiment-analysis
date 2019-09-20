@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+BIN_DIR=$(cd $(dirname $0); pwd)
+BUILD_DIR=$1
+CACHE_DIR=$2
+ENV_DIR=$3
+
+source $BIN_DIR/lib
+
+if [ "$TEXTBLOB_LITE" ]; then
+  puts-info 'Installing "lite" version'
+  install 'lite'
+else
+  install
+fi
+
+puts-info 'TextBlob Data Installed'
