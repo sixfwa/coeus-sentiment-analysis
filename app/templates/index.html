@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/flatly/bootstrap.min.css">
+    <title>COEUS</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-sm bg-primary justify-content-center">
+        <ul class="navbar-nav">
+            <h1 style="color: white">COEUS</h1>
+        </ul>
+    </nav>
+    <br>
+    <div class="container">
+        <br>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">ENTER TEXT</h4>
+                        <form action="{{ url_for('save') }}" method="POST">
+                            <div class="form-group">
+                                <textarea id="comment" name="text" rows="5" class="form-control"
+                                    autofocus>{{ data.get('text', '')}}</textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">ANALYSE</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% if (subjectivity and polarity) is not none %}
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">SENTIMENT ANALYSIS</h4>
+                        <h6 class="card-text">Polarity Score: {{ polarity }}</h6>
+                        <h6 class="card-text">Polarity Interpretation: {{ pol_statement }}</h6>
+                        <br>
+                        <h6 class="card-text">Subjectivity Score: {{ subjectivity }}</h6>
+                        <h6 class="card-text">Subjectivity Interpretation: {{ sub_statement }}</h6>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-sm-2"></div>
+            <div class="col-sm-8">
+                A small application that I made to practise my Flask / Python skills. This application uses the Python
+                library TextBlob to allow users to apply sentiment analysis on some text. Polarity is a number between
+                -1 and 1. Subjectivity is a number between 0 and 1.
+            </div>
+            <div class="col-sm-2"></div>
+        </div>
+        <!-- <div class="jumbotron text-center">
+            <h3>ENTER TEXT</h3>
+            <form action="{{ url_for('save') }}" method="POST">
+                <div class="form-group">
+                    <textarea id="comment" name="text" rows="5" class="form-control"
+                        autofocus>{{ data.get('text', '')}}</textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">ANALYSE</button>
+            </form>
+            <br>
+            {% if (subjectivity and polarity) is none %}
+            <p>NOTHING TO SHOW</p>
+            {% else %}
+            <p>Polarity: {{ polarity }}</p>
+            <p>Subjectivity: {{ subjectivity }}</p>
+            <p>{{ pol_statement }}</p>
+            <p>{{ sub_statement }}</p>
+            {% endif %}
+            <p>Powered by TextBlob</p>
+        </div> -->
+    </div>
+    <footer class="page-footer font-small blue">
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3">
+            © 2019 FRANCIS ALI PRODUCTION
+        </div>
+        <!-- Copyright -->
+    </footer>
+</body>
+
+</html>
